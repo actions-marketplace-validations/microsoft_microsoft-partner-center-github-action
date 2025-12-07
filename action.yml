@@ -2,18 +2,21 @@
 name: 'Update Partner Center offer artifact'
 description: 'Update Partner Center offer artifact'
 inputs:
-  offerName:
-    description: 'Offer name'
+  offerId:
+    description: 'Offer id'
     required: true
-  planName:
-    description: 'Plan name'
+    default: 'invalid'
+  planId:
+    description: 'Plan id'
     required: true
+    default: 'invalid'
   filePath:
     description: 'Artifact file path'
-    required: true
+    required: false
+    default: 'invalid'
   artifactVersion:
     description: 'Artifact version'
-    required: true
+    required: false
     default: '1.0.0'
   clientId:
     description: "client id"
@@ -27,14 +30,54 @@ inputs:
     description: "tenant id"
     required: true
     default: 'invalid'
+  offerType:
+    description: "offer type. Valid values are vm_image_offer or application_offer."
+    required: true
+    default: 'invalid'
+  imageVersionNumber:
+    description: "image version number"
+    required: false
+    default: 'invalid'
+  imageType:
+    description: "image type. Valid values are x64Gen1, x64Gen2 etc."
+    required: false
+    default: 'invalid'
+  osDiskSasUrl:
+    description: "OS Disk SAS URL"
+    required: false
+    default: 'invalid'
+  dataDiskSasUrl:
+    description: "Data Disk SAS URL"
+    required: false
+    default: 'invalid'
+  operatingSystemFamily:
+    description: "The OS family name. Valid value linux."
+    required: false
+    default: 'invalid'
+  operatingSystemType:
+    description: "The OS type name. Valid value redHat."
+    required: false
+    default: 'invalid'
+  verbose:
+    description: "Turn on verbose debugging output"
+    required: false
+    default: 'false'
 runs:
   using: 'docker'
   image: 'Dockerfile'
   args:
-    - ${{ inputs.offerName }} 
-    - ${{ inputs.planName }} 
-    - ${{ inputs.filePath }} 
-    - ${{ inputs.artifactVersion }}
     - ${{ inputs.clientId }}
     - ${{ inputs.secretValue }}
     - ${{ inputs.tenantId }}
+    - ${{ inputs.offerId }} 
+    - ${{ inputs.planId }} 
+    - ${{ inputs.offerType }}
+    - ${{ inputs.filePath }} 
+    - ${{ inputs.artifactVersion }}
+    - ${{ inputs.imageVersionNumber }}
+    - ${{ inputs.imageType }}
+    - ${{ inputs.osDiskSasUrl }}
+    - ${{ inputs.dataDiskSasUrl }}
+    - ${{ inputs.operatingSystemFamily }}
+    - ${{ inputs.operatingSystemType }}
+    - ${{ inputs.verbose }}
